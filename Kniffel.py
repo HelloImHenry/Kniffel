@@ -17,7 +17,7 @@ ANZAHLDERSPIELERDIEANGEZEITWERDEN = 5
 MAXIMALEANZAHLANERLAUBTENWÜRFEN = 3
 ANZAHLDERSPALTEN = 16
 ANZAHLDERREIHEN = 7
-MAXIMALESPIELERNAMENLÄNGE = 7
+MAXIMALESPIELERNAMENLÄNGE = 9
 OFFSET = 10
 errechneteErgebnisse = CheckFürKombinationen()
 player = []
@@ -98,9 +98,14 @@ def oberflächenPress(event):
                     calculateBonus(spielerAmZug)
                     calculateWholePoints(spielerAmZug)
                     oberfläche.itemconfig(kniffelBlockUI[15][idX+1], text = str(player[spielerAmZug].kniffelBoardInformation[15]))
+                    if player[spielerAmZug].kniffelBoardInformation[6] < 90:
+                        oberfläche.itemconfig(kniffelBlockUI[7][idX+1], text = str(player[spielerAmZug].kniffelBoardInformation[6]))
+                    else :
+                        oberfläche.itemconfig(kniffelBlockUI[7][idX+1], text = str(0))
                     spielerWechsel()
                     würfeln(1)
             #----------------------------------------------------------------------------------------------------
+        #Das ist der Code der für mehr als 6 Spieler relevant wird
         elif spielerAmZug > ANZAHLDERSPIELERDIEANGEZEITWERDEN:
             if idX == 5:
                 if player[spielerAmZug].kniffelBoardInformation[idY] == 99:
@@ -110,6 +115,10 @@ def oberflächenPress(event):
                     calculateBonus(spielerAmZug)
                     calculateWholePoints(spielerAmZug)
                     oberfläche.itemconfig(kniffelBlockUI[15][idX+1], text = str(player[spielerAmZug].kniffelBoardInformation[15]))
+                    if player[spielerAmZug].kniffelBoardInformation[6] < 90:
+                        oberfläche.itemconfig(kniffelBlockUI[7][idX+1], text = str(player[spielerAmZug].kniffelBoardInformation[6]))
+                    else :
+                        oberfläche.itemconfig(kniffelBlockUI[7][idX+1], text = str(0))
                     spielerWechsel()
                     würfeln(1)
             
@@ -252,7 +261,7 @@ def spielerNamenRegistrieren(event = None):
     if len(spieler) != (anzahlDerSpieler):
         if status != 0:
             if uiElemente[1].get() not in spieler and len(uiElemente[1].get()) <= MAXIMALESPIELERNAMENLÄNGE:
-                spieler.append(uiElemente[1].get())
+                spieler.append(uiElemente[1].get().lower())
                 uiElemente[1].delete(0,'end')
             elif uiElemente[1].get() in spieler:
                 uiElemente[1].delete(0,'end')
@@ -325,6 +334,9 @@ def anzahlderSpielerRegistrieren(event = None):
             uiElemente[1].delete(0,'end')
             anzahlDerSpieler = eingabe
             spielerNamenRegistrieren()
+        else:
+            uiElemente[1].delete(0,"end")
+            uiElemente[1].insert(0,"DIE DERZEITIGE MAXIMALE SPIELERANZAHL BETRÄGT 6")
 def spielerAnzahlEingabe():
     global startGroesseX
     global FORDERGRUNDFARBE
